@@ -1,0 +1,23 @@
+name: Pylint, Pytest and SonarQube
+
+#on: [push]
+on: [push]
+jobs:
+  build-and-test:
+    strategy:
+      matrix:
+        python-version: [3.8]
+
+    runs-on: [ubuntu-latest]
+    steps:
+      # Check out the last commit and set the repo version as environment variable
+      - name: Checkout repo
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Set Current Version
+        run: echo "GIT_DESCRIBE=$(git describe --always)" >> $GITHUB_ENV
+
+      - name: Show Current Version
+        run: echo $GIT_DESCRIBE
